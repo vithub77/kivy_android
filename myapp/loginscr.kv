@@ -1,0 +1,41 @@
+<LoginScreen>:
+    name: 'register'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50
+        spacing: 20
+
+        Label:
+            text: 'Register'
+            font_size: 24
+            bold: True
+
+        GridLayout:
+            cols: 2
+            spacing: 10
+            row_force_default: True
+            row_default_height: 40
+
+            Label:
+                text: 'Name:'
+            TextInput:
+                id: name_input
+                hint_text: 'Enter your name'
+
+            Label:
+                text: 'Phone:'
+            TextInput:
+                id: phone_input
+                hint_text: 'Enter your phone number'
+
+            Label:
+                text: 'Email:'
+            TextInput:
+                id: email_input
+                hint_text: 'Enter your email'
+
+        Button:
+            text: 'Register'
+            on_press: root.register_user()
+            size_hint_y: None
+            height: 40
