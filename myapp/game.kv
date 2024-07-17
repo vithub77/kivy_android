@@ -1,0 +1,32 @@
+<Game>:
+    name: 'game'
+
+    FloatLayout:
+
+        Image:
+            source: '/Users/one/Dev/samolet/back2.png'
+            allow_stretch: True
+            keep_ratio: False
+
+        BoxLayout:
+            size_hint: (.67, .6)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            Image:
+                id: img
+                source: ''
+                allow_stretch: True
+                keep_ratio: False
+
+        Button:
+            id: resonate
+            size_hint: (.15, .06)
+            text: 'Резонирует!'
+            pos_hint: {'center_x': .75, 'center_y': .1}
+            on_press: root.press(1)
+
+        Button:
+            id: no_resonate
+            size_hint: (.15, .06)
+            text: 'НЕ резонирует!'
+            pos_hint: {'center_x': .25, 'center_y': .1}
+

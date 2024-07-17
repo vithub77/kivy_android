@@ -1,26 +1,38 @@
+<Button>
+    font_size: 24
+    background_normal: ''
+    background_color: (.5, .5, 1, 1)
+
+<TextInput>
+    # background_color: (150/255, 150/255, 150/255, 1)
+
+
 <Welcome>:
     name: "pregame"
     Image:
         source: '/Users/one/Dev/samolet/back.png'
-        size: self.texture_size
+        allow_stretch: True
+        keep_ratio: False
 
     Label:
         text: 'Добро пожаловать!'
-        font_size: 65
+        font_size: 90
         size_hint: 0.15, 0.05
         pos_hint: {'x':.43, 'y':.7}
 
     Label:
         text: 'Ответить на вопросы и получить призы!'
-        font_size: 40
+        font_size: 55
         size_hint: 0.15, 0.05
         pos_hint: {'x':.43, 'y':.6}
+
 
 
     Button:
         size_hint: 0.1, 0.05
         text: 'Откажусь'
         pos_hint: {'x':.25, 'y':.1}
+        on_press: root.back_login()
 
 
 
@@ -28,59 +40,63 @@
         size_hint: 0.1, 0.05
         text: 'Вперед'
         pos_hint: {'x':.65, 'y':.1}
+        on_press: root.go_to_game()
 
 <LoginScreen>:
     name: 'register'
 
     Image:
-        source: '/Users/one/Dev/samolet/back.png'
-        size: self.texture_size
+        source: root.src
+        allow_stretch: True
+        keep_ratio: False
 
     BoxLayout:
+        spacing: 20
         orientation: 'vertical'
         size_hint: 0.3, 0.5
-        pos_hint: {'x':.35, 'y':.3}
+        pos_hint: {'center_x':.5, 'center_y': .5}
 
         Label:
             text: 'Регистрация'
-            font_size: 70
+            font_size: 100
             bold: True
 
         BoxLayout:
+            pos_hint: {'center_x':.5, 'center_y': .5}
             orientation: 'vertical'
-            padding: [0, 0, 0, 0]
+            spacing: 10
+            padding: 30
             row_force_default: True
             row_default_height: 40
 
 
             TextInput:
-                padding: [0, 0, 0, 0]
                 id: name_input
-                hint_text: 'Enter your name'
+                hint_text: 'Имя и фамилия'
 
 
             TextInput:
                 id: phone_input
-                hint_text: 'Enter your phone number'
+                hint_text: 'Телефон: 89999999999'
                 input_type: 'number'
                 input_filter: 'int'
 
             TextInput:
+                multiline: False
                 id: email_input
-                hint_text: 'Enter your email'
+                hint_text: 'email'
 
         Button:
             text: 'Войти'
             on_press: root.register_user()
-            size_hint_y: None
-            size_hint_x: 0.4
-            pos_hint: {'x':.4, 'y':.0}
-            height: 40
+            size_hint_y: 0.3
+            size_hint_x: 0.7
+            pos_hint: {'center_x':.5}
+
 
         Button:
             text: 'очистить'
             on_release: root.clear_field()
-            size_hint_y: None
-            size_hint_x: 0.4
-            pos_hint: {'x':.4, 'y':.0}
-            height: 40
+            size_hint_y: 0.3
+            size_hint_x: 0.7
+            pos_hint: {'center_x':.5}
