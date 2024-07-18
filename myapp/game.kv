@@ -4,7 +4,7 @@
     FloatLayout:
 
         Image:
-            source: '/Users/one/Dev/samolet/back2.png'
+            source: './back2.png'
             allow_stretch: True
             keep_ratio: False
 
@@ -29,4 +29,5 @@
             size_hint: (.15, .06)
             text: 'НЕ резонирует!'
             pos_hint: {'center_x': .25, 'center_y': .1}
+            on_press: root.press()
 

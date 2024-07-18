@@ -1,28 +1,34 @@
 <Button>
-    font_size: 24
+    font_size: 20
     background_normal: ''
-    background_color: (.5, .5, 1, 1)
+    background_color: (20/255, 150/255, 255/255, 1)
 
 <TextInput>
     # background_color: (150/255, 150/255, 150/255, 1)
+    multiline: False
+    font_size: 15
+    size_hint: 0.8, 0.06
+    pos_hint: {'center_x':.5, 'center_y':.5}
+
 
 
 <Welcome>:
     name: "pregame"
     Image:
-        source: '/Users/one/Dev/samolet/back.png'
+        source: './back.png'
         allow_stretch: True
         keep_ratio: False
 
+
     Label:
         text: 'Добро пожаловать!'
-        font_size: 90
+        font_size: 60
         size_hint: 0.15, 0.05
         pos_hint: {'x':.43, 'y':.7}
 
     Label:
         text: 'Ответить на вопросы и получить призы!'
-        font_size: 55
+        font_size: 45
         size_hint: 0.15, 0.05
         pos_hint: {'x':.43, 'y':.6}
 
@@ -50,53 +56,86 @@
         allow_stretch: True
         keep_ratio: False
 
+    Label:
+        text: 'Регистрация'
+        font_size: 50
+        bold: True
+        pos_hint: {'center_x':.5, 'y': .25}
+        #        canvas.before:
+#            Color:
+#                rgba: (0, 0, 1, 1)
+#            Rectangle:
+#                size: 462, 604
+#                pos: 1280//2 - 462//2, 800//2 - 604//2
+
+    BoxLayout:
+        spacing: 10
+        orientation: 'vertical'
+        size_hint: 0.36, 0.3
+        pos_hint: {'center_x':.5, 'center_y': .5}
+
+
+        TextInput:
+            id: name_input
+            hint_text: 'Фамилия и Имя'
+
+        TextInput:
+            id: phone_input
+            hint_text: 'Телефон: 89999999999'
+            input_type: 'number'
+            input_filter: 'int'
+
+        TextInput:
+            id: email_input
+            hint_text: 'email'
+
+        TextInput:
+            id: company
+            hint_text: 'Компания'
+
+        TextInput:
+            id: rang
+            hint_text: 'Должность'
+
+    Button:
+        text: 'Войти'
+        on_press: root.register_user()
+        size_hint_y: 0.05
+        size_hint_x: 0.2
+        pos_hint: {'center_x':.5, 'y': .27}
+
+
+    Button:
+        text: 'Очистить'
+        on_release: root.clear_field()
+        size_hint_y: 0.05
+        size_hint_x: 0.2
+        pos_hint: {'center_x':.5, 'y': .19}
+
+
+<AdminPage>:
+    name: 'adminpage'
+
+    Image:
+        source: './back.png'
+        allow_stretch: True
+        keep_ratio: False
+
     BoxLayout:
         spacing: 20
         orientation: 'vertical'
-        size_hint: 0.3, 0.5
         pos_hint: {'center_x':.5, 'center_y': .5}
 
-        Label:
-            text: 'Регистрация'
-            font_size: 100
-            bold: True
+    Button:
+        text: 'Выгрузить БД'
+        on_press: root.load_bd()
+        size_hint_y: 0.05
+        size_hint_x: 0.2
+        pos_hint: {'center_x':.5, 'y': .27}
 
-        BoxLayout:
-            pos_hint: {'center_x':.5, 'center_y': .5}
-            orientation: 'vertical'
-            spacing: 10
-            padding: 30
-            row_force_default: True
-            row_default_height: 40
-
-
-            TextInput:
-                id: name_input
-                hint_text: 'Имя и фамилия'
-
-
-            TextInput:
-                id: phone_input
-                hint_text: 'Телефон: 89999999999'
-                input_type: 'number'
-                input_filter: 'int'
-
-            TextInput:
-                multiline: False
-                id: email_input
-                hint_text: 'email'
-
-        Button:
-            text: 'Войти'
-            on_press: root.register_user()
-            size_hint_y: 0.3
-            size_hint_x: 0.7
-            pos_hint: {'center_x':.5}
-
-
-        Button:
-            text: 'очистить'
-            on_release: root.clear_field()
-            size_hint_y: 0.3
-            size_hint_x: 0.7
-            pos_hint: {'center_x':.5}
+    Button:
+        text: 'Очистить'
+        on_release: root.clear_bd()
+        size_hint_y: 0.05
+        size_hint_x: 0.2
+        pos_hint: {'center_x':.5, 'y': .19}
