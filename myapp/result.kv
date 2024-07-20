@@ -1,0 +1,31 @@
+<ResultPage>:
+    name: 'result'
+    on_enter: root.index_()
+
+
+    Image:
+        source: './back.png'
+        allow_stretch: True
+        keep_ratio: False
+
+    Label:
+        id: counts
+        text: ''
+        font_size: 50
+        bold: True
+        pos_hint: {'center_x':.5, 'center_y':.7}
+
+    Label:
+        id: gif
+        text: ''
+        font_size: 40
+        bold: True
+#        pos_hint: {'x':.43, 'y':.7}
+
+    Button:
+        text: 'Завершить'
+        font_size: 10
+        size_hint_y: 0.05
+        size_hint_x: 0.2
+        pos_hint: {'center_x':.5, 'y': .27}
+        on_press: root.back_login_page()

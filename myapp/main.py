@@ -4,10 +4,15 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.storage.jsonstore import JsonStore
 from os.path import join
+from kivy.animation import Animation
+
 from jnius import autoclass
+from kivy.core.window import Window
 
 import json
 import csv
+
+check = 0
 
 
 class LoginScreen(Screen):
@@ -20,7 +25,7 @@ class LoginScreen(Screen):
         company = self.ids.company.text
         rang = self.ids.rang.text
 
-        if name == 'admin' and phone == '666':
+        if name == 'admin' and phone == '777':
             self.clear_field()
             self.manager.current = 'adminpage'
 
@@ -52,27 +57,76 @@ class Game(Screen):
     Builder.load_file('./game.kv')
     positive = 0
     negative = 0
+    resonate = None
 
     def __init__(self, **kw):
-        self.list_img = ['1.png', '2.png', '3.png']
         super().__init__(**kw)
+        self.list_img = ['1.png', '2.png', '3.png']
+        self.img_generator = self.get_img()
+        self.anim_ftb = Animation(opacity=0.8, duration=0.07)
+        self.anim_up = Animation(opacity=1, duration=0.1)
+        self.press()
+
+    def restart_gen(self):
+        self.ids.progress_bar.value = 0
+        self.resonate = None
         self.img_generator = self.get_img()
         self.press()
 
-    def press(self, resonate=None):
-        if resonate:
-            print('resonate!!!!')
+    def ftb_press(self, resonate):
+        self.ids.progress_bar.value += 0.333
+        self.resonate = int(resonate)
+        self.anim_ftb.bind(on_complete=self.press)
+        self.anim_ftb.start(self.ids.img)
+
+    def _up_img(self):
+        self.anim_up.start(self.ids.img)
+
+    def press(self, animation=None, widget=None):
+        global check
+        if self.resonate == 1:
+            check += 10
         else:
-            print('Not resonate!')
+            pass
         try:
             p = next(self.img_generator)
             self.ids.img.source = f'./{p}'  # f'/Users/one/Dev/samolet/questions/{p}'
+            self._up_img()
         except:
-            print('game over')
+            self.manager.transition.direction = 'left'
+            self.manager.current = 'result'
+            self.restart_gen()
+
+    def back_login_page(self):
+        global check
+        check = 0
+        self.restart_gen()
+        self.manager.transition.direction = 'right'
+        self.manager.current = 'register'
 
     def get_img(self):
         for i in self.list_img:
             yield f'{i}'
+
+
+class ResultPage(Screen):
+    Builder.load_file('./result.kv')
+
+    def index_(self):
+        global check
+
+        self.ids.counts.text = f'Ваш результат: {check} баллов'
+        if check > 20:
+            self.ids.gif.text = 'Получите призы'
+        else:
+            self.ids.gif.text = 'Увы, но Вы ничего не получите'
+
+    def back_login_page(self):
+        global check
+        check = 0
+        self.ids.gif.text = ''
+        self.manager.transition.direction = 'left'
+        self.manager.current = 'register'
 
 
 class AdminPage(Screen):
@@ -81,12 +135,16 @@ class AdminPage(Screen):
         environment = autoclass('android.os.Environment')
         documents_path = join(environment.getExternalStorageDirectory().getAbsolutePath(), 'Documents', 'users.csv')
 
+        # with open(documents_path, 'w') as file:
+        #     file.write("Hello world!!!")
+
         with open(documents_path, mode='w', newline='') as fc:
-            wc = csv.DictWriter(fc, fieldnames=['name', 'phone', 'email', 'company', 'profession'])
+            wc = csv.DictWriter(fc, fieldnames=['id', 'name', 'phone', 'email', 'company', 'profession'])
             wc.writeheader()
             with open('./users.json', mode='r') as f:
                 data = json.load(f)
-                for item in data.values():
+                for num, item in enumerate(data.values(), start=1):
+                    item['id'] = str(num)
                     wc.writerow(item)
 
         self.manager.transition.direction = 'right'
@@ -106,6 +164,7 @@ class MyApp(App):
         sm.add_widget(Welcome(name='pregame'))
         sm.add_widget(Game(name='game'))
         sm.add_widget(AdminPage(name='adminpage'))
+        sm.add_widget(ResultPage(name='result'))
         return sm
 
 
@@ -115,6 +174,7 @@ Config.set('graphics', 'height', '800')
 # Config.set('kivy', 'keyboard_mode', 'keyboard_height', '100')
 
 # Config.set('graphics', 'fullscreen', 'auto')
+# Window.softinput_mode = 'resize'
 store = JsonStore('users.json')
 Builder.load_file('./start.kv')
 MyApp().run()

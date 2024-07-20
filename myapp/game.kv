@@ -2,16 +2,25 @@
     name: 'game'
 
     FloatLayout:
-
         Image:
-            source: './back2.png'
+            source: './back.png'
             allow_stretch: True
             keep_ratio: False
+
+        ProgressBar:
+            id: progress_bar
+            color: 1, 0, 1, 1
+            value: 0
+            min: 0
+            max: 1
+            size_hint_x: 0.67
+            pos_hint: {'center_x': .5, 'y': .35}
 
         BoxLayout:
             size_hint: (.67, .6)
             pos_hint: {'center_x': .5, 'center_y': .5}
             Image:
+                opacity: 1
                 id: img
                 source: ''
                 allow_stretch: True
@@ -22,12 +31,19 @@
             size_hint: (.15, .06)
             text: 'Резонирует!'
             pos_hint: {'center_x': .75, 'center_y': .1}
-            on_press: root.press(1)
+            on_press: root.ftb_press(1)
 
         Button:
             id: no_resonate
             size_hint: (.15, .06)
             text: 'НЕ резонирует!'
             pos_hint: {'center_x': .25, 'center_y': .1}
-            on_press: root.press()
+            on_press: root.ftb_press(-1)
 
+        Button:
+            id: back_register
+            size_hint: (.09, .06)
+            text: 'Выйти'
+            font_size: 10
+            pos_hint: {'center_x': .02, 'center_y': .03}
+            on_press: root.back_login_page()
