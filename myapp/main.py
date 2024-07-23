@@ -135,9 +135,9 @@ class ResultPage(Screen):
 
         self.ids.counts.text = f'Вы резанируете на {check} %'
         if check > 50:
-            self.ids.gif.text = 'Получите приз!'
+            self.ids.gif.text = 'Вау, мы синхронизировались! Без приза вас не отпустим!'
         else:
-            self.ids.gif.text = 'Увы, но Вы ничего не получите'
+            self.ids.gif.text = '    Мы резонируем на разных частотах.\nВам осталось только найти свою частоту!'
 
     def back_login_page(self):
         global check
@@ -152,9 +152,6 @@ class AdminPage(Screen):
     def load_bd(self):
         environment = autoclass('android.os.Environment')
         documents_path = join(environment.getExternalStorageDirectory().getAbsolutePath(), 'Documents', 'users.csv')
-
-        # with open(documents_path, 'w') as file:
-        #     file.write("Hello world!!!")
 
         with open(documents_path, mode='w', newline='') as fc:
             wc = csv.DictWriter(fc, fieldnames=['id', 'name', 'phone', 'email', 'company', 'profession'])
@@ -176,7 +173,6 @@ class AdminPage(Screen):
 
 class MyApp(App):
     def build(self):
-        # return LoginScreen()
         sm = ScreenManager()
         sm.add_widget(LoginScreen(name='register'))
         sm.add_widget(Welcome(name='pregame'))
@@ -185,14 +181,12 @@ class MyApp(App):
         sm.add_widget(ResultPage(name='result'))
         return sm
 
-# Window.size = 1280, 800
-Config.set('graphics', 'width', '1280')
-Config.set('graphics', 'height', '800')
-# Config.set('kivy', 'keyboard_mode', 'systemanddock')
-# Config.set('kivy', 'keyboard_mode', 'keyboard_height', '100')
 
-# Config.set('graphics', 'fullscreen', 'auto')
-# Window.softinput_mode = 'resize'
-store = JsonStore('users.json')
-Builder.load_file('./start.kv')
-MyApp().run()
+if __name__ == '__main__':
+    # Window.size = 1280, 800
+    Config.set('graphics', 'width', '1280')
+    Config.set('graphics', 'height', '800')
+
+    store = JsonStore('users.json')
+    Builder.load_file('./start.kv')
+    MyApp().run()
