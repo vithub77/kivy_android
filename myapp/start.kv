@@ -1,9 +1,11 @@
 <Button>
+    font_name: './regular.ttf'
     font_size: 20
     background_normal: ''
     background_color: (20/255, 150/255, 255/255, 1)
 
 <TextInput>
+    font_name: './regular.ttf'
     # background_color: (150/255, 150/255, 150/255, 1)
     multiline: False
     font_size: 16
@@ -21,21 +23,23 @@
 
 
     Label:
+        font_name: './black.ttf'
         text: 'Добро пожаловать!'
         font_size: 60
         size_hint: 0.15, 0.05
         pos_hint: {'x':.43, 'y':.7}
 
     Label:
+        font_name: './regular.ttf'
         text: 'Ответить на вопросы и получить призы!'
-        font_size: 45
+        font_size: 30
         size_hint: 0.15, 0.05
-        pos_hint: {'x':.43, 'y':.6}
+        pos_hint: {'x':.43, 'y':.5}
 
 
 
     Button:
-        size_hint: 0.1, 0.05
+        size_hint: 0.15, 0.06
         text: 'Откажусь'
         pos_hint: {'x':.25, 'y':.1}
         on_press: root.back_login()
@@ -43,8 +47,8 @@
 
 
     Button:
-        size_hint: 0.1, 0.05
-        text: 'Вперед'
+        size_hint: 0.15, 0.06
+        text: 'Вперед!'
         pos_hint: {'x':.65, 'y':.1}
         on_press: root.go_to_game()
 
@@ -57,23 +61,19 @@
         keep_ratio: False
 
     Label:
-        text: 'Регистрация'
+        font_name: './black.ttf'
+        text: 'Давай знакомиться!'
         font_size: 50
         bold: True
-        pos_hint: {'center_x':.5, 'y': .35}
-#                canvas.before:
-#            Color:
-#                rgba: (0, 0, 1, 1)
-#            Rectangle:
-#                size: 462, 604
-#                pos: 1280//2 - 462//2, 800//2 - 604//2
+        size_hint_x: 1
+        pos_hint: {'center_x': .5, 'y': .38}
 
     BoxLayout:
         spacing: 10
         orientation: 'vertical'
-        size_hint: 0.36, 0.3
-        pos_hint: {'center_x':.5, 'center_y': .6}
-
+        size_hint: 0.36, None
+        height: 200  #
+        pos_hint: {'center_x': .5, 'center_y': .65}
 
         TextInput:
             id: name_input
@@ -97,20 +97,35 @@
             id: rang
             hint_text: 'Должность'
 
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: 30
+        size_hint_x: 0.55
+        pos_hint: {'center_x': .5, 'y': .44}
+        padding: 0
+
+        CheckBox:
+            id: checkbox
+            on_active: root.checkbox_click(self, self.active)
+
+        Label:
+            text: 'согласие на обработку персональных данных'
+            font_size: 18
+
     Button:
         text: 'Войти'
         on_press: root.register_user()
         size_hint_y: 0.05
         size_hint_x: 0.2
-        pos_hint: {'center_x':.5, 'y': .36}
-
+        pos_hint: {'center_x': .5, 'y': .35}
 
     Button:
         text: 'Очистить'
         on_release: root.clear_field()
         size_hint_y: 0.05
         size_hint_x: 0.2
-        pos_hint: {'center_x':.5, 'y': .28}
+        pos_hint: {'center_x': .5, 'y': .28}
 
 
 <AdminPage>:

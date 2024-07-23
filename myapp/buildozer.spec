@@ -18,7 +18,7 @@ package.domain = org.test
 source.dir = .
 
 # (list) Source files to include (leave empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,txt,csv,json
+source.include_exts = py,png,jpg,kv,atlas,txt,csv,json,ttf
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -34,7 +34,7 @@ source.include_exts = py,png,jpg,kv,atlas,txt,csv,json
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.71
+version = 0.8
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -42,7 +42,7 @@ version = 0.71
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,pyjnius
+requirements = python3,kivy,pyjnius,sdl2_ttf
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

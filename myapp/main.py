@@ -9,6 +9,8 @@ from kivy.animation import Animation
 from jnius import autoclass
 from kivy.core.window import Window
 
+from questions import question
+
 import json
 import csv
 
@@ -17,6 +19,7 @@ check = 0
 
 class LoginScreen(Screen):
     src = './back.png'
+    agreement = False
 
     def register_user(self):
         name = self.ids.name_input.text
@@ -29,13 +32,19 @@ class LoginScreen(Screen):
             self.clear_field()
             self.manager.current = 'adminpage'
 
-        if name and phone and email and company and rang:
+        if name and phone and email and company and rang and self.agreement:
             store.put(phone, name=name, email=email, phone=phone, company=company, profession=rang)
             self.clear_field()
             self.manager.transition.direction = 'left'
             self.manager.current = 'pregame'
 
+    def checkbox_click(self, instance, value):
+        if value:
+            self.agreement = True
+
     def clear_field(self):
+        self.agreement = False
+        self.ids.checkbox.active = False
         self.ids.name_input.text = ""
         self.ids.phone_input.text = ""
         self.ids.email_input.text = ""
@@ -61,37 +70,46 @@ class Game(Screen):
 
     def __init__(self, **kw):
         super().__init__(**kw)
-        self.list_img = ['1.png', '2.png', '3.png']
+        self.list_img = question.keys()
         self.img_generator = self.get_img()
         self.anim_ftb = Animation(opacity=0.8, duration=0.07)
         self.anim_up = Animation(opacity=1, duration=0.1)
+        self.q = ''
         self.press()
 
     def restart_gen(self):
         self.ids.progress_bar.value = 0
         self.resonate = None
+        self.q = ''
         self.img_generator = self.get_img()
         self.press()
 
     def ftb_press(self, resonate):
-        self.ids.progress_bar.value += 0.333
+        self.ids.progress_bar.value += 0.1
         self.resonate = int(resonate)
-        self.anim_ftb.bind(on_complete=self.press)
-        self.anim_ftb.start(self.ids.img)
+        self.press()
+        # self.anim_ftb.bind(on_complete=self.press)
+        # self.anim_ftb.start(self.ids.img)
 
     def _up_img(self):
         self.anim_up.start(self.ids.img)
 
     def press(self, animation=None, widget=None):
         global check
-        if self.resonate == 1:
+        if question.get(self.q) == 0:
             check += 10
+        elif self.resonate == 1:
+            if question.get(self.q) == 1:
+                check += 10
         else:
-            pass
+            if question.get(self.q) == -1:
+                check += 10
+
         try:
-            p = next(self.img_generator)
-            self.ids.img.source = f'./{p}'  # f'/Users/one/Dev/samolet/questions/{p}'
-            self._up_img()
+            self.q = next(self.img_generator)
+            self.ids.q.text = self.q
+            # self.ids.img.source = f'./{p}'  # f'/Users/one/Dev/samolet/questions/{p}'
+            # self._up_img()
         except:
             self.manager.transition.direction = 'left'
             self.manager.current = 'result'
@@ -115,9 +133,9 @@ class ResultPage(Screen):
     def index_(self):
         global check
 
-        self.ids.counts.text = f'Ваш результат: {check} баллов'
-        if check > 20:
-            self.ids.gif.text = 'Получите призы'
+        self.ids.counts.text = f'Вы резанируете на {check} %'
+        if check > 50:
+            self.ids.gif.text = 'Получите приз!'
         else:
             self.ids.gif.text = 'Увы, но Вы ничего не получите'
 
@@ -167,7 +185,7 @@ class MyApp(App):
         sm.add_widget(ResultPage(name='result'))
         return sm
 
-
+# Window.size = 1280, 800
 Config.set('graphics', 'width', '1280')
 Config.set('graphics', 'height', '800')
 # Config.set('kivy', 'keyboard_mode', 'systemanddock')
